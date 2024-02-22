@@ -1,18 +1,33 @@
+import { useCallback, useEffect, useState } from "react";
 
 // Styles
-import { useState } from "react";
 import * as S from "./styles";
 
-// Local Components
-import Input from 'pages/home/components/input';
+// Components
+import Input from 'components/input';
+import Button from "components/button";
 
+// Services
+import { calculateImc } from "services/chatApi";
 
 const Home = () => {
+  const [userWeight, setUserWeight] = useState(0);
+  const [userHeight, setUserHeight] = useState(0);
+  const [isDisabled, setIsDisabled] = useState(true);
 
-  const [userWeight, setUserWeight] = useState('');
+  useEffect(() => {
+    if (userWeight > 0 && userHeight > 0) {
+      setIsDisabled(false);
+    }
+    else {
+      setIsDisabled(true);
+    }
 
+  }, [userWeight, userHeight]);
 
-  console.log('PESO', userWeight);
+  const handleCalculateImc = useCallback(() => {
+    return calculateImc(userWeight, userHeight);
+  }, [userWeight, userHeight]);
 
   return (
     <S.Container>
@@ -21,14 +36,24 @@ const Home = () => {
           Cálculo de IMC
         </S.Title>
       </S.SectionTitle>
-      <S.SectionContent>
+      <S.InputContainer>
         <Input
           onChange={(e) => setUserWeight(e.currentTarget.value)}
           value={userWeight}
           placeholder='Digite seu peso'
           name="peso"
           label="Peso" />
-      </S.SectionContent>
+        <Input
+          onChange={(e) => setUserHeight(e.currentTarget.value)}
+          value={userHeight}
+          placeholder='Digite sua altura'
+          name="altura"
+          label="Altura" />
+      </S.InputContainer>
+      <S.ButtonContainer>
+        <Button disabled={isDisabled} label="Calcular" onClick={handleCalculateImc} />
+      </S.ButtonContainer>
+
     </S.Container>
   );
 };

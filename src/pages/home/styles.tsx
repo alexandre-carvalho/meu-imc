@@ -20,12 +20,20 @@ export const Title = styled.div`
 font-size: 18px;
 `
 
-export const SectionContent = styled.div`
+export const InputContainer = styled.div`
 display: flex;
 flex-direction: row;
 align-items: center;
-justify-content: space-around;
+justify-content: space-evenly;
 width: 100%;
-padding: 20px 0;
-background-color: aliceblue;
+padding: 20px;
+`;
+
+export const ButtonContainer = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+width: 100%;
+height: auto;
+padding: 20px;
 `;

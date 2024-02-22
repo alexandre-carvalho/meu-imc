@@ -18,7 +18,7 @@ const Input: React.FC<InputProps> = ({ label, value, name, placeholder, onChange
     return (
         <S.Container>
             <S.Label>{label}</S.Label>
-            <input type="number" max={4} maxLength={4} value={value} name={name} placeholder={placeholder} onChange={onChange} />
+            <S.Field type="number" value={value} name={name} placeholder={placeholder} onChange={onChange} />
         </S.Container>
     )
 }

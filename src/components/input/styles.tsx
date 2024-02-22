@@ -14,7 +14,14 @@ border-radius: 16px;
 border: 1px solid gray;
 `;
 
-export const Label = styled.text`
+export const Label = styled.span`
 font-size: 14px;
 font-weight: bold;
+`;
+
+export const Field = styled.input`
+width: 100px;
+height: 25px;
+align-items: center;
+font-size: 12px;
 `;
