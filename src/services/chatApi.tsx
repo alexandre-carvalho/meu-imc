@@ -1,8 +1,11 @@
 
 
-export async function calculateImc(weight: number, height: number) {
-    const calculate = weight / (height * height);
-    console.log('weight', weight);
-    console.log('height', height);
-    console.log('calculateImc', calculate.toFixed(2));
+export async function calculateImc(weight: string, height: string) {
+    const parseWeight = parseFloat(weight);
+    const parseHeight = parseFloat(height);
+
+    const calculate = parseWeight / (parseHeight * parseHeight);
+    console.log('weight', parseWeight);
+    console.log('height', parseHeight);
+    console.log('calculateImc', parseFloat(calculate.toFixed(2)));
 }

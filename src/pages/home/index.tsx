@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 // Styles
 import * as S from "./styles";
@@ -7,23 +7,24 @@ import * as S from "./styles";
 import Input from 'components/input';
 import Button from "components/button";
 
+// Utils
+import { maskHeight, maskWeight } from "utils/masks";
+
 // Services
 import { calculateImc } from "services/chatApi";
 
 const Home = () => {
-  const [userWeight, setUserWeight] = useState(0);
-  const [userHeight, setUserHeight] = useState(0);
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [userWeight, setUserWeight] = useState('');
+  const [userHeight, setUserHeight] = useState('');
 
-  useEffect(() => {
-    if (userWeight > 0 && userHeight > 0) {
-      setIsDisabled(false);
-    }
-    else {
-      setIsDisabled(true);
-    }
+  const onChangeWeight = useCallback((weight: any) => {
+    setUserWeight(weight)
+  }, []);
 
-  }, [userWeight, userHeight]);
+  const onChangeHeight = useCallback((height: any) => {
+    setUserHeight(height);
+  }, []);
+
 
   const handleCalculateImc = useCallback(() => {
     return calculateImc(userWeight, userHeight);
@@ -38,20 +39,25 @@ const Home = () => {
       </S.SectionTitle>
       <S.InputContainer>
         <Input
-          onChange={(e) => setUserWeight(e.currentTarget.value)}
+          onChange={(e) => onChangeWeight(maskWeight(e.currentTarget.value))}
+          maxLength={6}
           value={userWeight}
           placeholder='Digite seu peso'
           name="peso"
           label="Peso" />
         <Input
-          onChange={(e) => setUserHeight(e.currentTarget.value)}
+          onChange={(e) => onChangeHeight(maskHeight(e.currentTarget.value))}
+          maxLength={4}
           value={userHeight}
           placeholder='Digite sua altura'
           name="altura"
           label="Altura" />
       </S.InputContainer>
       <S.ButtonContainer>
-        <Button disabled={isDisabled} label="Calcular" onClick={handleCalculateImc} />
+        <Button
+          disabled={userWeight === '' || userHeight === ''}
+          label="Calcular"
+          onClick={handleCalculateImc} />
       </S.ButtonContainer>
 
     </S.Container>
