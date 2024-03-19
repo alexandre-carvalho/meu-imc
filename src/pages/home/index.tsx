@@ -10,12 +10,12 @@ import Button from "components/button";
 // Utils
 import { maskHeight, maskWeight } from "utils/masks";
 
-// Services
-import { calculateImc } from "services/chatApi";
-
 const Home = () => {
-  const [userWeight, setUserWeight] = useState('');
-  const [userHeight, setUserHeight] = useState('');
+  const [userWeight, setUserWeight] = useState<string>('');
+  const [userHeight, setUserHeight] = useState<string>('');
+  const [textResult, setTextResult] = useState<number>(0);
+  const [result, setResult] = useState<boolean>(false);
+  console.log('calculate', textResult);
 
   const onChangeWeight = useCallback((weight: any) => {
     setUserWeight(weight)
@@ -27,8 +27,14 @@ const Home = () => {
 
 
   const handleCalculateImc = useCallback(() => {
-    return calculateImc(userWeight, userHeight);
-  }, [userWeight, userHeight]);
+    const parseWeight = parseFloat(userWeight);
+    const parseHeight = parseFloat(userHeight);
+    const calculate = parseWeight / (parseHeight * parseHeight);
+
+    setTextResult(calculate);
+    setResult(true);
+
+  }, [userHeight, userWeight]);
 
   return (
     <S.Container>
@@ -59,7 +65,12 @@ const Home = () => {
           label="Calcular"
           onClick={handleCalculateImc} />
       </S.ButtonContainer>
-
+      {result && (
+        <S.ResultContainer>
+          <S.Result>{textResult.toFixed(2)}</S.Result>
+        </S.ResultContainer>
+      )
+      }
     </S.Container>
   );
 };

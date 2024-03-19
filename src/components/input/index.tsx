@@ -3,7 +3,7 @@ import * as S from "./styles"
 
 interface InputProps {
     label: string;
-    value: string;
+    value: any;
     placeholder: string;
     name: string;
     onChange?(value: any): void;
@@ -15,7 +15,7 @@ const Input: React.FC<InputProps> = ({ maxLength, label, value, name, placeholde
     return (
         <S.Container>
             <S.Label>{label}</S.Label>
-            <S.Field maxLength={maxLength} type="text" value={value} name={name} placeholder={placeholder} onChange={onChange}
+            <S.Field maxLength={maxLength} value={value} name={name} placeholder={placeholder} onChange={onChange}
             />
         </S.Container>
     )

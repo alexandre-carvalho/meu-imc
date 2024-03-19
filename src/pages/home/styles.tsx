@@ -37,3 +37,17 @@ width: 100%;
 height: auto;
 padding: 20px;
 `;
+
+export const ResultContainer = styled.div`
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: center;
+width: 100%;
+border-radius: 22px;
+`;
+
+export const Result = styled.span`
+font-size: 22px;
+text-align: center;
+`;
