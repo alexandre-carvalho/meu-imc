@@ -13,9 +13,10 @@ import { maskHeight, maskWeight } from "utils/masks";
 const Home = () => {
   const [userWeight, setUserWeight] = useState<string>('');
   const [userHeight, setUserHeight] = useState<string>('');
-  const [textResult, setTextResult] = useState<number>(0);
+  const [imcResult, setImcResult] = useState<number>(0);
+  const [classification, setClassification] = useState<string>('');
+  const [imcType, setImcType] = useState<number>(0);
   const [result, setResult] = useState<boolean>(false);
-  console.log('calculate', textResult);
 
   const onChangeWeight = useCallback((weight: any) => {
     setUserWeight(weight)
@@ -31,7 +32,22 @@ const Home = () => {
     const parseHeight = parseFloat(userHeight);
     const calculate = parseWeight / (parseHeight * parseHeight);
 
-    setTextResult(calculate);
+    if (calculate <= 18.5) {
+      setClassification('Magreza');
+    } else if (calculate > 18.5 && calculate <= 24.9) {
+      setClassification('Normal');
+    } else if (calculate > 24.9 && calculate <= 29.9) {
+      setClassification('Sobrepeso');
+      setImcType(1);
+    } else if (calculate > 29.9 && calculate <= 39.9) {
+      setClassification('Obesidade');
+      setImcType(2);
+    } else {
+      setClassification('Obesidade Grave');
+      setImcType(3);
+    }
+
+    setImcResult(calculate);
     setResult(true);
 
   }, [userHeight, userWeight]);
@@ -67,7 +83,9 @@ const Home = () => {
       </S.ButtonContainer>
       {result && (
         <S.ResultContainer>
-          <S.Result>{textResult.toFixed(2)}</S.Result>
+          <S.Result>{imcResult.toFixed(2)}</S.Result>
+          <S.Result>{classification}</S.Result>
+          <S.Result>{imcType}</S.Result>
         </S.ResultContainer>
       )
       }
