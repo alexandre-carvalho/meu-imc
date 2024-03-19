@@ -17,6 +17,7 @@ const Home = () => {
   const [classification, setClassification] = useState<string>('');
   const [imcType, setImcType] = useState<number>(0);
   const [result, setResult] = useState<boolean>(false);
+  const [invalidValues, setInvalidValues] = useState(false);
 
   const onChangeWeight = useCallback((weight: any) => {
     setUserWeight(weight)
@@ -26,31 +27,42 @@ const Home = () => {
     setUserHeight(height);
   }, []);
 
-
   const handleCalculateImc = useCallback(() => {
     const parseWeight = parseFloat(userWeight);
     const parseHeight = parseFloat(userHeight);
-    const calculate = parseWeight / (parseHeight * parseHeight);
 
-    if (calculate <= 18.5) {
-      setClassification('Magreza');
-    } else if (calculate > 18.5 && calculate <= 24.9) {
-      setClassification('Normal');
-    } else if (calculate > 24.9 && calculate <= 29.9) {
-      setClassification('Sobrepeso');
-      setImcType(1);
-    } else if (calculate > 29.9 && calculate <= 39.9) {
-      setClassification('Obesidade');
-      setImcType(2);
+    if (parseWeight > 0 && parseHeight > 0) {
+      const calculate = parseWeight / (parseHeight * parseHeight);
+
+      if (calculate <= 18.5) {
+        setClassification('Magreza');
+      } else if (calculate > 18.5 && calculate <= 24.9) {
+        setClassification('Normal');
+      } else if (calculate > 24.9 && calculate <= 29.9) {
+        setClassification('Sobrepeso');
+        setImcType(1);
+      } else if (calculate > 29.9 && calculate <= 39.9) {
+        setClassification('Obesidade');
+        setImcType(2);
+      } else {
+        setClassification('Obesidade Grave');
+        setImcType(3);
+      }
+      setInvalidValues(false);
+      setImcResult(calculate);
+      setResult(true);
     } else {
-      setClassification('Obesidade Grave');
-      setImcType(3);
+      setInvalidValues(true);
+      setResult(false);
     }
-
-    setImcResult(calculate);
-    setResult(true);
-
   }, [userHeight, userWeight]);
+
+  const clearImcResult = useCallback(() => {
+    setUserWeight('');
+    setUserHeight('');
+    setResult(false);
+    setInvalidValues(false);
+  }, []);
 
   return (
     <S.Container>
@@ -86,8 +98,25 @@ const Home = () => {
           <S.Result>{imcResult.toFixed(2)}</S.Result>
           <S.Result>{classification}</S.Result>
           <S.Result>{imcType}</S.Result>
+          <S.ButtonContainer>
+            <Button
+              label="Limpar Pesquisa"
+              onClick={clearImcResult} />
+          </S.ButtonContainer>
         </S.ResultContainer>
       )
+      }
+      {
+        invalidValues && (
+          <S.ResultContainer>
+            <S.Result>Por favor, digite peso e altura maior que zero.</S.Result>
+            <S.ButtonContainer>
+              <Button
+                label="Limpar Pesquisa"
+                onClick={clearImcResult} />
+            </S.ButtonContainer>
+          </S.ResultContainer>
+        )
       }
     </S.Container>
   );
