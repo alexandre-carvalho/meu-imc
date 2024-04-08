@@ -57,7 +57,7 @@ const Home = () => {
     }
   }, [userHeight, userWeight]);
 
-  const clearImcResult = useCallback(() => {
+  const clearImcResults = useCallback(() => {
     setUserWeight('');
     setUserHeight('');
     setResult(false);
@@ -89,6 +89,7 @@ const Home = () => {
       </S.InputContainer>
       <S.ButtonContainer>
         <Button
+          background="success"
           disabled={userWeight === '' || userHeight === ''}
           label="Calcular"
           onClick={handleCalculateImc} />
@@ -100,8 +101,9 @@ const Home = () => {
           <S.Result>{imcType}</S.Result>
           <S.ButtonContainer>
             <Button
+              background="success"
               label="Limpar Pesquisa"
-              onClick={clearImcResult} />
+              onClick={clearImcResults} />
           </S.ButtonContainer>
         </S.ResultContainer>
       )
@@ -112,8 +114,9 @@ const Home = () => {
             <S.Result>Por favor, digite peso e altura maior que zero.</S.Result>
             <S.ButtonContainer>
               <Button
+                background="error"
                 label="Limpar Pesquisa"
-                onClick={clearImcResult} />
+                onClick={clearImcResults} />
             </S.ButtonContainer>
           </S.ResultContainer>
         )
