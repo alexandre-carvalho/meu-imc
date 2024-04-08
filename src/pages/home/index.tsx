@@ -71,40 +71,45 @@ const Home = () => {
           Cálculo de IMC
         </S.Title>
       </S.SectionTitle>
-      <S.InputContainer>
-        <Input
-          onChange={(e) => onChangeWeight(maskWeight(e.currentTarget.value))}
-          maxLength={6}
-          value={userWeight}
-          placeholder='Digite seu peso'
-          name="peso"
-          label="Peso" />
-        <Input
-          onChange={(e) => onChangeHeight(maskHeight(e.currentTarget.value))}
-          maxLength={4}
-          value={userHeight}
-          placeholder='Digite sua altura'
-          name="altura"
-          label="Altura" />
-      </S.InputContainer>
-      <S.ButtonContainer>
-        <Button
-          background="success"
-          disabled={userWeight === '' || userHeight === ''}
-          label="Calcular"
-          onClick={handleCalculateImc} />
-      </S.ButtonContainer>
-      {result && (
+      <S.ContainerSection>
+        <S.InputContainer>
+          <S.InputContent>
+            <Input
+              onChange={(e) => onChangeWeight(maskWeight(e.currentTarget.value))}
+              maxLength={6}
+              value={userWeight}
+              placeholder='Digite seu peso'
+              name="peso"
+              label="Peso" />
+            <Input
+              onChange={(e) => onChangeHeight(maskHeight(e.currentTarget.value))}
+              maxLength={4}
+              value={userHeight}
+              placeholder='Digite sua altura'
+              name="altura"
+              label="Altura" />
+          </S.InputContent>
+          <Button
+            background="success"
+            disabled={userWeight === '' || userHeight === ''}
+            label="Calcular"
+            onClick={handleCalculateImc} />
+        </S.InputContainer>
+
+        <S.TableContainer>
+          <S.Title>TEXTO</S.Title>
+        </S.TableContainer>
+
+      </S.ContainerSection>
+      {/* {result && (
         <S.ResultContainer>
           <S.Result>{imcResult.toFixed(2)}</S.Result>
           <S.Result>{classification}</S.Result>
           <S.Result>{imcType}</S.Result>
-          <S.ButtonContainer>
-            <Button
-              background="success"
-              label="Limpar Pesquisa"
-              onClick={clearImcResults} />
-          </S.ButtonContainer>
+          <Button
+            background="success"
+            label="Limpar Pesquisa"
+            onClick={clearImcResults} />
         </S.ResultContainer>
       )
       }
@@ -112,15 +117,13 @@ const Home = () => {
         invalidValues && (
           <S.ResultContainer>
             <S.Result>Por favor, digite peso e altura maior que zero.</S.Result>
-            <S.ButtonContainer>
-              <Button
-                background="error"
-                label="Limpar Pesquisa"
-                onClick={clearImcResults} />
-            </S.ButtonContainer>
+            <Button
+              background="error"
+              label="Limpar Pesquisa"
+              onClick={clearImcResults} />
           </S.ResultContainer>
         )
-      }
+      } */}
     </S.Container>
   );
 };

@@ -3,7 +3,9 @@ const primary = {
 };
 
 const secondary = {
-    n0: '#E6E6E6',
+    n0: '#F8F8F8',
+    n01: '#E8E8E8',
+    n02: '#7A7A7A',
 };
 
 const danger = {

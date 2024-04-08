@@ -14,28 +14,41 @@ export const SectionTitle = styled.div`
   height: 50px;
   justify-content: center;
   padding: 10px 0 20px;
-  `;
+`;
 
 export const Title = styled.div`
 font-size: 18px;
-`
+`;
+
+export const ContainerSection = styled.div`
+display: flex;
+flex-direction: row;
+width: 100%;
+`;
 
 export const InputContainer = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+width: 100%;
+padding: 20px;
+`;
+
+export const InputContent = styled.div`
 display: flex;
 flex-direction: row;
 align-items: center;
 justify-content: space-evenly;
 width: 100%;
-padding: 20px;
+margin-bottom: 50px;
 `;
 
-export const ButtonContainer = styled.div`
+export const TableContainer = styled.div`
 display: flex;
 align-items: center;
 justify-content: center;
 width: 100%;
-height: auto;
-padding: 20px;
+border: 1px solid black;
 `;
 
 export const ResultContainer = styled.div`
