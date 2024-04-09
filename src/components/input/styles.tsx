@@ -6,7 +6,7 @@ display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: space-evenly;
-width: 175px;
+width: 185px;
 height: 250px;
 padding: 16px;
 border-radius: 16px;
