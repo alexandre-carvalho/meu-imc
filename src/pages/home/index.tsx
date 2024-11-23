@@ -17,7 +17,7 @@ const Home = () => {
   const [classification, setClassification] = useState<string>("");
   const [imcType, setImcType] = useState<number>(0);
   const [result, setResult] = useState<boolean>(false);
-  const [invalidValues, setInvalidValues] = useState(false);
+  const [invalidValues, setInvalidValues] = useState<boolean>(false);
 
   const onChangeWeight = useCallback((weight: any) => {
     setUserWeight(weight);
@@ -25,6 +25,12 @@ const Home = () => {
 
   const onChangeHeight = useCallback((height: any) => {
     setUserHeight(height);
+  }, []);
+
+  const clearImcResults = useCallback(() => {
+    setUserWeight("");
+    setUserHeight("");
+    setResult(false);
   }, []);
 
   const handleCalculateImc = useCallback(() => {
@@ -48,21 +54,15 @@ const Home = () => {
         setClassification("Obesidade Grave");
         setImcType(3);
       }
-      setInvalidValues(false);
       setImcResult(calculate);
       setResult(true);
     } else {
       setInvalidValues(true);
-      setResult(false);
+      setTimeout(() => {
+        setInvalidValues(false);
+      }, 5000);
     }
-  }, [userHeight, userWeight]);
-
-  const clearImcResults = useCallback(() => {
-    setUserWeight("");
-    setUserHeight("");
-    setResult(false);
-    setInvalidValues(false);
-  }, []);
+  }, [userHeight, userWeight, result, invalidValues]);
 
   return (
     <S.Container>
@@ -80,59 +80,63 @@ const Home = () => {
           e a obesidade.
         </S.Text>
       </S.TextContent>
-      <S.ContainerSection>
-        <S.CalculatorContainer>
-          <S.CalculatorContent>
-            <Input
-              onChange={(e) =>
-                onChangeWeight(maskWeight(e.currentTarget.value))
-              }
-              maxLength={6}
-              value={userWeight}
-              placeholder="Digite seu peso"
-              name="peso"
-              label="Peso"
-            />
-            <Input
-              onChange={(e) =>
-                onChangeHeight(maskHeight(e.currentTarget.value))
-              }
-              maxLength={4}
-              value={userHeight}
-              placeholder="Digite sua altura"
-              name="altura"
-              label="Altura"
-            />
-          </S.CalculatorContent>
-          <Button
-            background="success"
-            disabled={userWeight === "" || userHeight === ""}
-            label="Calcular"
-            onClick={handleCalculateImc}
+
+      <S.CalculatorContainer>
+        <S.CalculatorContent>
+          <Input
+            onChange={(e) => onChangeWeight(maskWeight(e.currentTarget.value))}
+            maxLength={6}
+            value={userWeight}
+            placeholder="Digite seu peso"
+            name="peso"
+            label="Peso"
           />
-        </S.CalculatorContainer>
-      </S.ContainerSection>
+          <Input
+            onChange={(e) => onChangeHeight(maskHeight(e.currentTarget.value))}
+            maxLength={4}
+            value={userHeight}
+            placeholder="Digite sua altura"
+            name="altura"
+            label="Altura"
+          />
+        </S.CalculatorContent>
+        <Button
+          background="success"
+          disabled={userWeight === "" || userHeight === ""}
+          label="Calcular"
+          onClick={handleCalculateImc}
+        />
+      </S.CalculatorContainer>
+
       {result && (
         <S.ResultContainer>
-          <S.Result>{imcResult.toFixed(2)}</S.Result>
-          <S.Result>{classification}</S.Result>
-          <S.Result>{imcType}</S.Result>
-          <Button
-            background="success"
-            label="Limpar Pesquisa"
-            onClick={clearImcResults}
-          />
+          <S.ResultRow>
+            <S.ResultLabel weight={600}>Peso:</S.ResultLabel>
+            <S.ResultLabel weight={400}>{imcResult.toFixed(2)}</S.ResultLabel>
+          </S.ResultRow>
+          <S.ResultRow>
+            <S.ResultLabel weight={600}>Classificação:</S.ResultLabel>
+            <S.ResultLabel weight={400}>{classification}</S.ResultLabel>
+          </S.ResultRow>
+          <S.ResultRow>
+            <S.ResultLabel weight={600}>Tipo:</S.ResultLabel>
+            <S.ResultLabel weight={400}>{imcType}</S.ResultLabel>
+          </S.ResultRow>
+
+          <S.ButtonContainer>
+            <Button
+              background="success"
+              label="Limpar Pesquisa"
+              onClick={clearImcResults}
+            />
+          </S.ButtonContainer>
         </S.ResultContainer>
       )}
+
       {invalidValues && (
-        <S.ResultContainer>
-          <S.Result>Por favor, digite peso e altura maior que zero.</S.Result>
-          <Button
-            background="error"
-            label="Limpar Pesquisa"
-            onClick={clearImcResults}
-          />
-        </S.ResultContainer>
+        <S.ErrorLabel weight={600}>
+          Por favor, digite peso e altura maior do que zero.
+        </S.ErrorLabel>
       )}
     </S.Container>
   );
