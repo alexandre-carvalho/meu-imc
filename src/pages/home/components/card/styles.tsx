@@ -20,7 +20,7 @@ export const Container = styled.div`
   }
 `;
 
-export const Label = styled.text`
+export const Label = styled.span`
   font-size: 15px;
   font-weight: 700;
   color: ${theme.colors.text.n0};

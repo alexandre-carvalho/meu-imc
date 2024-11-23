@@ -14,8 +14,9 @@ const Home = () => {
   const [userWeight, setUserWeight] = useState<string>("");
   const [userHeight, setUserHeight] = useState<string>("");
   const [imcResult, setImcResult] = useState<number>(0);
-  const [classification, setClassification] = useState<string>("");
   const [imcType, setImcType] = useState<number>(0);
+  const [imcDetails, setImcDetails] = useState<string>("");
+  const [imcClassification, setImcClassification] = useState<string>("");
   const [result, setResult] = useState<boolean>(false);
   const [invalidValues, setInvalidValues] = useState<boolean>(false);
 
@@ -33,6 +34,7 @@ const Home = () => {
     setResult(false);
   }, []);
 
+  // TODO: Add new color scheme to imcDetails
   const handleCalculateImc = useCallback(() => {
     const parseWeight = parseFloat(userWeight);
     const parseHeight = parseFloat(userHeight);
@@ -40,19 +42,36 @@ const Home = () => {
     if (parseWeight > 0 && parseHeight > 0) {
       const calculate = parseWeight / (parseHeight * parseHeight);
 
-      if (calculate <= 18.5) {
-        setClassification("Magreza");
-      } else if (calculate > 18.5 && calculate <= 24.9) {
-        setClassification("Normal");
-      } else if (calculate > 24.9 && calculate <= 29.9) {
+      if (calculate <= 18.4) {
         setImcType(1);
-        setClassification("Sobrepeso");
-      } else if (calculate > 29.9 && calculate <= 39.9) {
+        setImcClassification("Abaixo do peso");
+        setImcDetails(
+          "Indica que a pessoa está abaixo do peso ideal, o que pode estar associado a problemas nutricionais ou de saúde."
+        );
+      } else if (calculate >= 18.5 && calculate <= 24.9) {
         setImcType(2);
-        setClassification("Obesidade");
-      } else {
+        setImcClassification("Peso normal");
+        setImcDetails(
+          "Considerado o peso ideal para a maioria das pessoas, com menor risco para problemas de saúde relacionados ao peso."
+        );
+      } else if (calculate >= 25.0 && calculate <= 29.9) {
         setImcType(3);
-        setClassification("Obesidade Grave");
+        setImcClassification("Sobrepeso");
+        setImcDetails(
+          "Indica excesso de peso, o que pode aumentar o risco de doenças como hipertensão e diabetes."
+        );
+      } else if (calculate >= 30.0 && calculate <= 34.9) {
+        setImcType(4);
+        setImcClassification("Obesidade grau 1");
+        setImcDetails("Risco moderado para problemas de saúde.");
+      } else if (calculate >= 35.0 && calculate <= 39.9) {
+        setImcType(4);
+        setImcClassification("Obesidade grau 2");
+        setImcDetails("Risco elevado para complicações de saúde.");
+      } else {
+        setImcType(4);
+        setImcClassification("Obesidade grau 3 - obesidade mórbida");
+        setImcDetails("Risco muito elevado de problemas graves de saúde.");
       }
       setImcResult(calculate);
       setResult(true);
@@ -126,7 +145,11 @@ const Home = () => {
           </S.ResultRow>
           <S.ResultRow>
             <S.ResultLabel weight={600}>Classificação:</S.ResultLabel>
-            <S.ResultLabel weight={400}>{classification}</S.ResultLabel>
+            <S.ResultLabel weight={400}>{imcClassification}</S.ResultLabel>
+          </S.ResultRow>
+          <S.ResultRow>
+            <S.ResultLabel weight={600}>Detalhes:</S.ResultLabel>
+            <S.ResultLabel weight={400}>{imcDetails}</S.ResultLabel>
           </S.ResultRow>
 
           <S.ButtonContainer>

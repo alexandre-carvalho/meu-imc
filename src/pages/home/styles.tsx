@@ -2,15 +2,16 @@ import styled from "styled-components";
 import theme from "theme";
 
 export const Container = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1;
   height: 100vh;
-  padding: 0 32px;
+  overflow-y: auto;
+  padding: 10px 32px 30px;
 `;
 
-export const Title = styled.text`
+export const Title = styled.span`
   display: flex;
   justify-content: center;
   font-size: 22px;
@@ -27,7 +28,7 @@ export const TextContent = styled.div`
   padding: 16px 32px;
 `;
 
-export const Text = styled.text`
+export const Text = styled.span`
   text-align: center;
   font-size: 15px;
   margin-bottom: 10px;
@@ -77,12 +78,11 @@ export const ResultContainer = styled.div`
 export const ResultRow = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
   width: 100%;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 `;
 
-export const ResultLabel = styled.text<any>`
+export const ResultLabel = styled.span<any>`
   color: ${theme.colors.text.n0};
   letter-spacing: 0.5px;
   font-size: 15px;
