@@ -14,34 +14,42 @@ export const Title = styled.text`
   display: flex;
   justify-content: center;
   font-size: 22px;
-  padding: 40px 0;
+  padding: 40px 0 20px;
+  color: ${theme.colors.text.n0};
+  font-family: "Montserrat";
+  font-weight: bold;
 `;
 
 export const TextContent = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  width: 85%;
+  padding: 16px 32px;
 `;
 
 export const Text = styled.text`
-  font-size: 16px;
+  text-align: center;
+  font-size: 15px;
   margin-bottom: 10px;
+  color: ${theme.colors.text.n0};
   font-family: "Montserrat";
+  letter-spacing: 0.5px;
 `;
 
 export const CalculatorContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 50%;
   padding: 20px;
+  margin-top: 25px;
 `;
 
 export const CalculatorContent = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-around;
   width: 100%;
   margin-bottom: 50px;
 `;
@@ -51,11 +59,19 @@ export const ResultContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 50%;
   border-radius: 22px;
   padding: 16px;
-  margin-top: 25px;
-  border: 0.5px solid black;
+  margin-top: 30px;
+  border-radius: 16px;
+  border: 0.5px solid ${theme.colors.secondary.n01};
+  box-shadow: 2px 2px 6px ${theme.colors.secondary.n01};
+  background-color: ${theme.colors.white.n0};
+
+  &:hover {
+    border: 1px solid ${theme.colors.secondary.n01};
+    box-shadow: 6px 6px 12px ${theme.colors.secondary.n01};
+  }
 `;
 
 export const ResultRow = styled.div`
@@ -66,8 +82,10 @@ export const ResultRow = styled.div`
   margin-bottom: 5px;
 `;
 
-export const ResultLabel = styled.span<any>`
-  font-size: 20px;
+export const ResultLabel = styled.text<any>`
+  color: ${theme.colors.text.n0};
+  letter-spacing: 0.5px;
+  font-size: 15px;
   font-family: "Montserrat";
   margin-right: 5px;
   font-weight: ${(props: any) => (props.weight ? props.weight : 100)};
@@ -76,6 +94,7 @@ export const ResultLabel = styled.span<any>`
 export const ErrorLabel = styled(ResultLabel)`
   text-align: center;
   color: ${theme.colors.danger.n0};
+  font-family: "Montserrat";
   margin: 30px 0 0;
 `;
 

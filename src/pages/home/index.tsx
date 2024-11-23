@@ -4,8 +4,8 @@ import { useCallback, useState } from "react";
 import * as S from "./styles";
 
 // Components
-import Input from "components/input";
 import Button from "components/button";
+import Card from "./components/card";
 
 // Utils
 import { maskHeight, maskWeight } from "utils/masks";
@@ -45,24 +45,30 @@ const Home = () => {
       } else if (calculate > 18.5 && calculate <= 24.9) {
         setClassification("Normal");
       } else if (calculate > 24.9 && calculate <= 29.9) {
-        setClassification("Sobrepeso");
         setImcType(1);
+        setClassification("Sobrepeso");
       } else if (calculate > 29.9 && calculate <= 39.9) {
-        setClassification("Obesidade");
         setImcType(2);
+        setClassification("Obesidade");
       } else {
-        setClassification("Obesidade Grave");
         setImcType(3);
+        setClassification("Obesidade Grave");
       }
       setImcResult(calculate);
       setResult(true);
     } else {
       setInvalidValues(true);
+      setResult(false);
       setTimeout(() => {
         setInvalidValues(false);
       }, 5000);
     }
   }, [userHeight, userWeight, result, invalidValues]);
+
+  const handleValidate = useCallback(() => {
+    if (userWeight === "" || userHeight === "") return true;
+    return false;
+  }, [userWeight, userHeight]);
 
   return (
     <S.Container>
@@ -83,7 +89,7 @@ const Home = () => {
 
       <S.CalculatorContainer>
         <S.CalculatorContent>
-          <Input
+          <Card
             onChange={(e) => onChangeWeight(maskWeight(e.currentTarget.value))}
             maxLength={6}
             value={userWeight}
@@ -91,7 +97,7 @@ const Home = () => {
             name="peso"
             label="Peso"
           />
-          <Input
+          <Card
             onChange={(e) => onChangeHeight(maskHeight(e.currentTarget.value))}
             maxLength={4}
             value={userHeight}
@@ -102,7 +108,7 @@ const Home = () => {
         </S.CalculatorContent>
         <Button
           background="success"
-          disabled={userWeight === "" || userHeight === ""}
+          disabled={handleValidate()}
           label="Calcular"
           onClick={handleCalculateImc}
         />
@@ -111,16 +117,16 @@ const Home = () => {
       {result && (
         <S.ResultContainer>
           <S.ResultRow>
-            <S.ResultLabel weight={600}>Peso:</S.ResultLabel>
+            <S.ResultLabel weight={600}>IMC:</S.ResultLabel>
             <S.ResultLabel weight={400}>{imcResult.toFixed(2)}</S.ResultLabel>
-          </S.ResultRow>
-          <S.ResultRow>
-            <S.ResultLabel weight={600}>Classificação:</S.ResultLabel>
-            <S.ResultLabel weight={400}>{classification}</S.ResultLabel>
           </S.ResultRow>
           <S.ResultRow>
             <S.ResultLabel weight={600}>Tipo:</S.ResultLabel>
             <S.ResultLabel weight={400}>{imcType}</S.ResultLabel>
+          </S.ResultRow>
+          <S.ResultRow>
+            <S.ResultLabel weight={600}>Classificação:</S.ResultLabel>
+            <S.ResultLabel weight={400}>{classification}</S.ResultLabel>
           </S.ResultRow>
 
           <S.ButtonContainer>
@@ -135,7 +141,7 @@ const Home = () => {
 
       {invalidValues && (
         <S.ErrorLabel weight={600}>
-          Por favor, digite peso e altura maior do que zero.
+          Por favor, digite Peso e Altura maior do que zero.
         </S.ErrorLabel>
       )}
     </S.Container>
