@@ -24,17 +24,18 @@ export const Title = styled.span`
 export const TextContent = styled.div`
   display: flex;
   flex-direction: column;
-  width: 85%;
-  padding: 16px 32px;
+  width: 50%;
+  padding: 16px;
 `;
 
 export const Text = styled.span`
   text-align: center;
-  font-size: 15px;
-  margin-bottom: 10px;
-  color: ${theme.colors.text.n0};
   font-family: "Montserrat";
+  color: ${theme.colors.text.n0};
+  font-size: 15px;
   letter-spacing: 0.5px;
+  font-weight: 400;
+  margin-bottom: 15px;
 `;
 
 export const CalculatorContainer = styled.div`
@@ -43,7 +44,6 @@ export const CalculatorContainer = styled.div`
   align-items: center;
   width: 50%;
   padding: 20px;
-  margin-top: 25px;
 `;
 
 export const CalculatorContent = styled.div`
@@ -60,7 +60,7 @@ export const ResultContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 50%;
+  width: 40%;
   border-radius: 22px;
   padding: 16px;
   margin-top: 30px;
@@ -68,11 +68,6 @@ export const ResultContainer = styled.div`
   border: 0.5px solid ${theme.colors.secondary.n01};
   box-shadow: 2px 2px 6px ${theme.colors.secondary.n01};
   background-color: ${theme.colors.white.n0};
-
-  &:hover {
-    border: 1px solid ${theme.colors.secondary.n01};
-    box-shadow: 6px 6px 12px ${theme.colors.secondary.n01};
-  }
 `;
 
 export const ResultRow = styled.div`
@@ -99,5 +94,9 @@ export const ErrorLabel = styled(ResultLabel)`
 `;
 
 export const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
   margin-top: 25px;
 `;

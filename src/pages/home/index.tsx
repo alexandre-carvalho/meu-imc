@@ -34,7 +34,6 @@ const Home = () => {
     setResult(false);
   }, []);
 
-  // TODO: Add new color scheme to imcDetails
   const handleCalculateImc = useCallback(() => {
     const parseWeight = parseFloat(userWeight);
     const parseHeight = parseFloat(userHeight);
@@ -77,7 +76,6 @@ const Home = () => {
       setResult(true);
     } else {
       setInvalidValues(true);
-      setResult(false);
       setTimeout(() => {
         setInvalidValues(false);
       }, 5000);
@@ -133,6 +131,12 @@ const Home = () => {
         />
       </S.CalculatorContainer>
 
+      {invalidValues && (
+        <S.ErrorLabel weight={600}>
+          Por favor, digite Peso e Altura maior do que zero.
+        </S.ErrorLabel>
+      )}
+
       {result && (
         <S.ResultContainer>
           <S.ResultRow>
@@ -158,14 +162,13 @@ const Home = () => {
               label="Limpar Pesquisa"
               onClick={clearImcResults}
             />
+            <Button
+              background="info"
+              label="Obter mais informações"
+              onClick={() => console.log("click")}
+            />
           </S.ButtonContainer>
         </S.ResultContainer>
-      )}
-
-      {invalidValues && (
-        <S.ErrorLabel weight={600}>
-          Por favor, digite Peso e Altura maior do que zero.
-        </S.ErrorLabel>
       )}
     </S.Container>
   );
