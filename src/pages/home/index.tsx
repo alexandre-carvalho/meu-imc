@@ -1,5 +1,8 @@
 import { useCallback, useState } from "react";
 
+// Services
+import { sendMessage } from "services/openai";
+
 // Styles
 import * as S from "./styles";
 
@@ -80,12 +83,16 @@ const Home = () => {
         setInvalidValues(false);
       }, 5000);
     }
-  }, [userHeight, userWeight, result, invalidValues]);
+  }, [userHeight, userWeight]);
 
   const handleValidate = useCallback(() => {
     if (userWeight === "" || userHeight === "") return true;
     return false;
   }, [userWeight, userHeight]);
+
+  const handleChat = useCallback(() => {
+    sendMessage();
+  }, []);
 
   return (
     <S.Container>
@@ -165,7 +172,7 @@ const Home = () => {
             <Button
               background="info"
               label="Obter mais informações"
-              onClick={() => console.log("click")}
+              onClick={handleChat}
             />
           </S.ButtonContainer>
         </S.ResultContainer>
