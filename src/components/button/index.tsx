@@ -1,5 +1,6 @@
-// Styles
 import { useCallback } from "react";
+
+// Styles
 import * as S from "./styles";
 
 interface ButtonProps {

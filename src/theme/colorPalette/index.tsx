@@ -20,10 +20,15 @@ const text = {
   n0: "#354264",
 };
 
+const black = {
+  n0: "#000",
+};
+
 export default {
   primary,
   secondary,
   danger,
   white,
   text,
+  black,
 };

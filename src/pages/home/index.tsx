@@ -9,11 +9,16 @@ import * as S from "./styles";
 // Components
 import Button from "components/button";
 import Card from "./components/card";
+import Result from "./components/result";
 
 // Utils
 import { maskHeight, maskWeight } from "utils/masks";
 
-const Home = () => {
+// Models
+import { imcRanges } from "model/imc";
+import Loading from "components/loading";
+
+const Home: React.FC = () => {
   const [userWeight, setUserWeight] = useState<string>("");
   const [userHeight, setUserHeight] = useState<string>("");
   const [imcResult, setImcResult] = useState<number>(0);
@@ -22,6 +27,7 @@ const Home = () => {
   const [imcClassification, setImcClassification] = useState<string>("");
   const [result, setResult] = useState<boolean>(false);
   const [invalidValues, setInvalidValues] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeWeight = useCallback((weight: any) => {
     setUserWeight(weight);
@@ -31,59 +37,41 @@ const Home = () => {
     setUserHeight(height);
   }, []);
 
-  const clearImcResults = useCallback(() => {
+  const onCleanResults = useCallback(() => {
     setUserWeight("");
     setUserHeight("");
     setResult(false);
   }, []);
 
-  const handleCalculateImc = useCallback(() => {
+  const handleCalculate = useCallback(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
     const parseWeight = parseFloat(userWeight);
     const parseHeight = parseFloat(userHeight);
 
     if (parseWeight > 0 && parseHeight > 0) {
       const calculate = parseWeight / (parseHeight * parseHeight);
 
-      if (calculate <= 18.4) {
-        setImcType(1);
-        setImcClassification("Abaixo do peso");
-        setImcDetails(
-          "Indica que a pessoa está abaixo do peso ideal, o que pode estar associado a problemas nutricionais ou de saúde."
-        );
-      } else if (calculate >= 18.5 && calculate <= 24.9) {
-        setImcType(2);
-        setImcClassification("Peso normal");
-        setImcDetails(
-          "Considerado o peso ideal para a maioria das pessoas, com menor risco para problemas de saúde relacionados ao peso."
-        );
-      } else if (calculate >= 25.0 && calculate <= 29.9) {
-        setImcType(3);
-        setImcClassification("Sobrepeso");
-        setImcDetails(
-          "Indica excesso de peso, o que pode aumentar o risco de doenças como hipertensão e diabetes."
-        );
-      } else if (calculate >= 30.0 && calculate <= 34.9) {
-        setImcType(4);
-        setImcClassification("Obesidade grau 1");
-        setImcDetails("Risco moderado para problemas de saúde.");
-      } else if (calculate >= 35.0 && calculate <= 39.9) {
-        setImcType(4);
-        setImcClassification("Obesidade grau 2");
-        setImcDetails("Risco elevado para complicações de saúde.");
-      } else {
-        setImcType(4);
-        setImcClassification("Obesidade grau 3 - obesidade mórbida");
-        setImcDetails("Risco muito elevado de problemas graves de saúde.");
+      const imcData = imcRanges.find(
+        ({ min = -Infinity, max = Infinity }) =>
+          calculate >= min && calculate <= max
+      );
+
+      if (imcData) {
+        setImcType(imcData.type);
+        setImcClassification(imcData.classification);
+        setImcDetails(imcData.details);
       }
+
       setImcResult(calculate);
       setResult(true);
     } else {
       setInvalidValues(true);
-      setTimeout(() => {
-        setInvalidValues(false);
-      }, 5000);
+      setTimeout(() => setInvalidValues(false), 5000);
     }
-  }, [userHeight, userWeight]);
+  }, [userWeight, userHeight]);
 
   const handleValidate = useCallback(() => {
     if (userWeight === "" || userHeight === "") return true;
@@ -96,6 +84,7 @@ const Home = () => {
 
   return (
     <S.Container>
+      <Loading visible={isLoading} />
       <S.Title>Cálculo de IMC</S.Title>
 
       <S.TextContent>
@@ -134,7 +123,7 @@ const Home = () => {
           background="success"
           disabled={handleValidate()}
           label="Calcular"
-          onClick={handleCalculateImc}
+          onClick={handleCalculate}
         />
       </S.CalculatorContainer>
 
@@ -145,37 +134,14 @@ const Home = () => {
       )}
 
       {result && (
-        <S.ResultContainer>
-          <S.ResultRow>
-            <S.ResultLabel weight={600}>IMC:</S.ResultLabel>
-            <S.ResultLabel weight={400}>{imcResult.toFixed(2)}</S.ResultLabel>
-          </S.ResultRow>
-          <S.ResultRow>
-            <S.ResultLabel weight={600}>Tipo:</S.ResultLabel>
-            <S.ResultLabel weight={400}>{imcType}</S.ResultLabel>
-          </S.ResultRow>
-          <S.ResultRow>
-            <S.ResultLabel weight={600}>Classificação:</S.ResultLabel>
-            <S.ResultLabel weight={400}>{imcClassification}</S.ResultLabel>
-          </S.ResultRow>
-          <S.ResultRow>
-            <S.ResultLabel weight={600}>Detalhes:</S.ResultLabel>
-            <S.ResultLabel weight={400}>{imcDetails}</S.ResultLabel>
-          </S.ResultRow>
-
-          <S.ButtonContainer>
-            <Button
-              background="success"
-              label="Limpar Pesquisa"
-              onClick={clearImcResults}
-            />
-            <Button
-              background="info"
-              label="Obter mais informações"
-              onClick={handleChat}
-            />
-          </S.ButtonContainer>
-        </S.ResultContainer>
+        <Result
+          result={imcResult}
+          type={imcType}
+          classification={imcClassification}
+          details={imcDetails}
+          onCleanResults={onCleanResults}
+          onClickChat={handleChat}
+        />
       )}
     </S.Container>
   );

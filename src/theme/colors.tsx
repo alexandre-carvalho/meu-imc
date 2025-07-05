@@ -6,6 +6,7 @@ const colors = {
   danger: colorPalette.danger,
   white: colorPalette.white,
   text: colorPalette.text,
+  black: colorPalette.black,
 };
 
 export default { colors };

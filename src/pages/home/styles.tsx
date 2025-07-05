@@ -6,16 +6,15 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
-  overflow-y: auto;
-  padding: 10px 32px 30px;
+  min-height: 100vh;
+  padding: 32px;
 `;
 
 export const Title = styled.span`
   display: flex;
   justify-content: center;
   font-size: 22px;
-  padding: 40px 0 20px;
+  padding: 8px;
   color: ${theme.colors.text.n0};
   font-family: "Montserrat";
   font-weight: bold;
@@ -55,48 +54,15 @@ export const CalculatorContent = styled.div`
   margin-bottom: 50px;
 `;
 
-export const ResultContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 40%;
-  border-radius: 22px;
-  padding: 16px;
-  margin-top: 30px;
-  border-radius: 16px;
-  border: 0.5px solid ${theme.colors.secondary.n01};
-  box-shadow: 2px 2px 6px ${theme.colors.secondary.n01};
-  background-color: ${theme.colors.white.n0};
-`;
-
-export const ResultRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  margin-bottom: 10px;
-`;
-
-export const ResultLabel = styled.span<any>`
+export const ErrorLabel = styled.span<any>`
   color: ${theme.colors.text.n0};
   letter-spacing: 0.5px;
   font-size: 15px;
   font-family: "Montserrat";
   margin-right: 5px;
   font-weight: ${(props: any) => (props.weight ? props.weight : 100)};
-`;
-
-export const ErrorLabel = styled(ResultLabel)`
   text-align: center;
   color: ${theme.colors.danger.n0};
   font-family: "Montserrat";
   margin: 30px 0 0;
-`;
-
-export const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  width: 100%;
-  margin-top: 25px;
 `;
