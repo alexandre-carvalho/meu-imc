@@ -13,6 +13,7 @@ interface ResultProps {
   details: string;
   onCleanResults: Function;
   onClickChat: Function;
+  disabled: boolean;
 }
 
 const Result: React.FC<ResultProps> = ({
@@ -22,6 +23,7 @@ const Result: React.FC<ResultProps> = ({
   details,
   onCleanResults,
   onClickChat,
+  disabled,
 }) => {
   return (
     <S.ResultContainer>
@@ -45,10 +47,11 @@ const Result: React.FC<ResultProps> = ({
       <S.ResultButtonContainer>
         <Button
           background="success"
-          label="Limpar Pesquisa"
+          label="Realizar nova pesquisa"
           onClick={onCleanResults}
         />
         <Button
+          disabled={disabled}
           background="info"
           label="Obter mais informações"
           onClick={onClickChat}

@@ -1,7 +1,4 @@
-import { useCallback, useState } from "react";
-
-// Services
-import { sendMessage } from "services/openai";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 // Styles
 import * as S from "./styles";
@@ -10,15 +7,27 @@ import * as S from "./styles";
 import Button from "components/button";
 import Card from "./components/card";
 import Result from "./components/result";
+import Loading from "components/loading";
+import ChatResponse from "./components/chatResponse";
 
 // Utils
 import { maskHeight, maskWeight } from "utils/masks";
 
 // Models
 import { imcRanges } from "model/imc";
-import Loading from "components/loading";
+
+// Hooks
+import { useAppDispatch, useAppSelector } from "hooks";
+
+// Store
+import { ApplicationState } from "store";
+import { handleChatAsync } from "store/chat/thunks";
+import { chatDefaultSucces, chatSetIsSuccessMessage } from "store/chat";
 
 const Home: React.FC = () => {
+  const { loading, error, messageError, messageSuccess, isSuccessMessage } =
+    useAppSelector((state: ApplicationState) => state.chat);
+  const dispatch = useAppDispatch();
   const [userWeight, setUserWeight] = useState<string>("");
   const [userHeight, setUserHeight] = useState<string>("");
   const [imcResult, setImcResult] = useState<number>(0);
@@ -27,7 +36,36 @@ const Home: React.FC = () => {
   const [imcClassification, setImcClassification] = useState<string>("");
   const [result, setResult] = useState<boolean>(false);
   const [invalidValues, setInvalidValues] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const initOfPageRef = useRef<HTMLDivElement>(null);
+  const endOfPageRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (error && !loading) {
+      setTimeout(() => {
+        endOfPageRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 50);
+      setIsError(true);
+      setInterval(() => {
+        setIsError(false);
+      }, 5000);
+    }
+  }, [loading, error]);
+
+  useEffect(() => {
+    if (isSuccessMessage)
+      setTimeout(() => {
+        endOfPageRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 50);
+  }, [isSuccessMessage]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      result
+        ? endOfPageRef.current?.scrollIntoView({ behavior: "smooth" })
+        : initOfPageRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 50);
+  }, [result]);
 
   const onChangeWeight = useCallback((weight: any) => {
     setUserWeight(weight);
@@ -41,13 +79,11 @@ const Home: React.FC = () => {
     setUserWeight("");
     setUserHeight("");
     setResult(false);
+    dispatch(chatSetIsSuccessMessage(false));
+    dispatch(chatDefaultSucces(""));
   }, []);
 
   const handleCalculate = useCallback(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
     const parseWeight = parseFloat(userWeight);
     const parseHeight = parseFloat(userHeight);
 
@@ -75,16 +111,18 @@ const Home: React.FC = () => {
 
   const handleValidate = useCallback(() => {
     if (userWeight === "" || userHeight === "") return true;
+    if (isSuccessMessage) return true;
     return false;
-  }, [userWeight, userHeight]);
+  }, [userWeight, userHeight, isSuccessMessage]);
 
   const handleChat = useCallback(() => {
-    sendMessage();
-  }, []);
+    dispatch(handleChatAsync(imcResult, imcClassification));
+  }, [imcResult, imcClassification]);
 
   return (
     <S.Container>
-      <Loading visible={isLoading} />
+      <div ref={initOfPageRef} />
+      <Loading visible={loading} />
       <S.Title>Cálculo de IMC</S.Title>
 
       <S.TextContent>
@@ -134,15 +172,22 @@ const Home: React.FC = () => {
       )}
 
       {result && (
-        <Result
-          result={imcResult}
-          type={imcType}
-          classification={imcClassification}
-          details={imcDetails}
-          onCleanResults={onCleanResults}
-          onClickChat={handleChat}
-        />
+        <>
+          <Result
+            result={imcResult}
+            type={imcType}
+            classification={imcClassification}
+            details={imcDetails}
+            disabled={isSuccessMessage!}
+            onCleanResults={onCleanResults}
+            onClickChat={handleChat}
+          />
+
+          {isError && <S.ErrorLabel weight={600}>{messageError}</S.ErrorLabel>}
+        </>
       )}
+      {isSuccessMessage && <ChatResponse textResponse={messageSuccess} />}
+      <div ref={endOfPageRef} />
     </S.Container>
   );
 };

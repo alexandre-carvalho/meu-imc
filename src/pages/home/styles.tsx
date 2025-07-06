@@ -2,19 +2,25 @@ import styled from "styled-components";
 import theme from "theme";
 
 export const Container = styled.div`
-  flex: 1;
+  height: 100vh;
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
-  padding: 32px;
 `;
 
 export const Title = styled.span`
   display: flex;
   justify-content: center;
   font-size: 22px;
-  padding: 8px;
+  padding: 45px 0 20px;
   color: ${theme.colors.text.n0};
   font-family: "Montserrat";
   font-weight: bold;

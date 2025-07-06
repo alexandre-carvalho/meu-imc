@@ -7,9 +7,8 @@ export const ResultContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 40%;
-  border-radius: 22px;
   padding: 16px;
-  margin-top: 30px;
+  margin: 30px 0;
   border-radius: 16px;
   border: 0.5px solid ${theme.colors.secondary.n01};
   box-shadow: 2px 2px 6px ${theme.colors.secondary.n01};
