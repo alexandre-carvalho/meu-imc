@@ -1,5 +1,8 @@
 import axios from "axios";
 
+// Configs
+import { OPENAI_TOKEN } from "config";
+
 export async function sendChat(
   userImc: number,
   userClassification: string
@@ -35,8 +38,7 @@ export async function sendChat(
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "Bearer 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",
+          Authorization: `Bearer ${OPENAI_TOKEN}`,
         },
       }
     );

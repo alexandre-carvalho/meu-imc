@@ -70,5 +70,5 @@ export const ErrorLabel = styled.span<any>`
   text-align: center;
   color: ${theme.colors.danger.n0};
   font-family: "Montserrat";
-  margin: 30px 0 0;
+  margin: 30px 0;
 `;
