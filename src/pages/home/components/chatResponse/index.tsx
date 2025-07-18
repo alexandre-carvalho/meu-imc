@@ -11,6 +11,9 @@ interface ChatResponseProps {
 const ChatResponse: React.FC<ChatResponseProps> = ({ textResponse }) => {
   return (
     <S.Container>
+      <S.LabelContent>
+        <S.Label>Texto gerado por meio de Inteligência Artificial</S.Label>
+      </S.LabelContent>
       <S.TextArea>
         <ReactMarkdown>{textResponse}</ReactMarkdown>
       </S.TextArea>

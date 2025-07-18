@@ -50,3 +50,21 @@ export const TextArea = styled.span`
     padding: 12px;
   }
 `;
+export const LabelContent = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  padding: 5px;
+`;
+
+export const Label = styled.span`
+  font-style: italic;
+  color: ${theme.colors.text.n0};
+  letter-spacing: 0.5px;
+  font-size: 10px;
+  font-family: "Montserrat";
+
+  @media (max-width: 480px) {
+    font-size: 9px;
+  }
+`;
