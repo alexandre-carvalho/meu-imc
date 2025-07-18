@@ -2,19 +2,24 @@ import styled from "styled-components";
 import theme from "theme";
 
 export const Container = styled.div`
-  height: 100vh;
-  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+  min-height: 100dvh; /* Mais confiável que 100vh em mobile */
+  padding: 16px;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* Scroll suave em iOS */
+
   scrollbar-width: none;
   -ms-overflow-style: none;
 
   &::-webkit-scrollbar {
     display: none;
   }
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 16px;
 
   @media (min-height: 1000px) {
     padding: 32px;
