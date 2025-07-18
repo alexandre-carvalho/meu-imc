@@ -6,6 +6,7 @@ export const ResultContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   width: 40%;
   padding: 16px;
   margin: 30px 0;
@@ -13,6 +14,22 @@ export const ResultContainer = styled.div`
   border: 0.5px solid ${theme.colors.secondary.n01};
   box-shadow: 2px 2px 6px ${theme.colors.secondary.n01};
   background-color: ${theme.colors.white.n0};
+
+  @media (max-width: 1024px) {
+    width: 60%;
+  }
+
+  @media (max-width: 768px) {
+    width: 90%;
+    padding: 12px;
+    margin: 20px 0;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    margin: 16px 0;
+    border-radius: 12px;
+  }
 `;
 
 export const ResultRow = styled.div`
@@ -20,6 +37,11 @@ export const ResultRow = styled.div`
   flex-direction: row;
   width: 100%;
   margin-bottom: 10px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 4px;
+  }
 `;
 
 export const ResultLabel = styled.span<any>`
@@ -29,6 +51,14 @@ export const ResultLabel = styled.span<any>`
   font-family: "Montserrat";
   margin-right: 5px;
   font-weight: ${(props: any) => (props.weight ? props.weight : 100)};
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+  }
 `;
 
 export const ResultButtonContainer = styled.div`
@@ -37,4 +67,10 @@ export const ResultButtonContainer = styled.div`
   justify-content: space-evenly;
   width: 100%;
   margin-top: 25px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
 `;
