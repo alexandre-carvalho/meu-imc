@@ -17,13 +17,13 @@ export const Container = styled.div`
   background-color: ${theme.colors.white.n0};
 
   @media (max-width: 768px) {
-    width: 95%;
+    width: 90%;
     margin: 30px 0 20px;
     padding: 12px;
   }
 
   @media (max-width: 480px) {
-    width: 100%;
+    width: 80%;
     margin: 20px 0 16px;
     border-radius: 12px;
   }

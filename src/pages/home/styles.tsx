@@ -5,24 +5,18 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   width: 100%;
-  min-height: 100dvh; /* Mais confiável que 100vh em mobile */
-  padding: 16px;
+  min-height: 100dvh;
 
   overflow-x: hidden;
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch; /* Scroll suave em iOS */
+  -webkit-overflow-scrolling: touch;
 
   scrollbar-width: none;
   -ms-overflow-style: none;
 
   &::-webkit-scrollbar {
     display: none;
-  }
-
-  @media (min-height: 1000px) {
-    padding: 32px;
   }
 `;
 

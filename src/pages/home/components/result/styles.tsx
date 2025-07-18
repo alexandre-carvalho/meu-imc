@@ -26,7 +26,7 @@ export const ResultContainer = styled.div`
   }
 
   @media (max-width: 480px) {
-    width: 100%;
+    width: 80%;
     margin: 16px 0;
     border-radius: 12px;
   }

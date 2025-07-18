@@ -53,7 +53,7 @@ const Result: React.FC<ResultProps> = ({
         <Button
           disabled={disabled}
           background="info"
-          label="Obter mais informações"
+          label="Ver recomendações com IA"
           onClick={onClickChat}
         />
       </S.ResultButtonContainer>
