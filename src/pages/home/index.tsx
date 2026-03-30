@@ -81,7 +81,7 @@ const Home: React.FC = () => {
     setResult(false);
     dispatch(chatSetIsSuccessMessage(false));
     dispatch(chatDefaultSucces(""));
-  }, []);
+  }, [dispatch]);
 
   const handleCalculate = useCallback(() => {
     const parseWeight = parseFloat(userWeight);
@@ -92,7 +92,7 @@ const Home: React.FC = () => {
 
       const imcData = imcRanges.find(
         ({ min = -Infinity, max = Infinity }) =>
-          calculate >= min && calculate <= max
+          calculate >= min && calculate <= max,
       );
 
       if (imcData) {
@@ -117,7 +117,7 @@ const Home: React.FC = () => {
 
   const handleChat = useCallback(() => {
     dispatch(handleChatAsync(imcResult, imcClassification));
-  }, [imcResult, imcClassification]);
+  }, [dispatch, imcResult, imcClassification]);
 
   return (
     <S.Container>
