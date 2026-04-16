@@ -1,5 +1,4 @@
 import { Dispatch } from "redux";
-import { sendChat } from "services/chat";
 import {
   chatDefaultFailure,
   chatDefaultLoad,
@@ -7,17 +6,22 @@ import {
   chatSetIsSuccessMessage,
 } from "./index";
 
+import { makeGetImcRecommendation } from "domain/useCases/getImcRecommendationUseCase";
+import { openAIChatRepository } from "infrastructure/repositories/openAIChatRepository";
+
+const getImcRecommendation = makeGetImcRecommendation(openAIChatRepository);
+
 export function handleChatAsync(imc: number, classification: string) {
   return async (dispatch: Dispatch) => {
     dispatch(chatDefaultLoad());
-    const response = await sendChat(imc, classification);
 
-    if (!response.success || !response.data) {
-      dispatch(chatDefaultFailure("Não foi possível realizar a solicitação"));
-      return;
+    try {
+      const response = await getImcRecommendation(imc, classification);
+
+      dispatch(chatDefaultSucces(response));
+      dispatch(chatSetIsSuccessMessage(true));
+    } catch (error: any) {
+      dispatch(chatDefaultFailure(error.message));
     }
-
-    dispatch(chatDefaultSucces(response.data.choices[0].message.content));
-    dispatch(chatSetIsSuccessMessage(true));
   };
 }
